@@ -1,0 +1,14 @@
+<div class="message" [ngClass]="{'user-message': isUser, 'bot-message': isBot}">
+    <div class="message-content">
+      <div class="message-bubble" [ngClass]="{'user-bubble': isUser, 'bot-bubble': isBot}">
+        <div class="message-text">{{ message.content }}</div>
+        <div class="message-time" *ngIf="formattedTime">{{ formattedTime }}</div>
+      </div>
+    </div>
+    
+    <!-- Crisis alert indicator -->
+    <div class="crisis-alert" *ngIf="message.is_crisis_detected">
+      <span class="crisis-icon">⚠️</span>
+      <span class="crisis-text">Crisis detected - Please seek immediate help</span>
+    </div>
+  </div>

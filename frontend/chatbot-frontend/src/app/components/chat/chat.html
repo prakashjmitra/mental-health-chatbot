@@ -1,0 +1,214 @@
+<div class="chat-container">
+    <!-- Crisis Alert Banner -->
+    <div *ngIf="lastAnalysis?.crisis_detected" class="crisis-alert">
+      <div class="crisis-content">
+        <span class="crisis-icon">🚨</span>
+        <div class="crisis-text">
+          <strong>Crisis Detected</strong>
+          <p>If you're in immediate danger, please call 911 or go to your nearest emergency room.</p>
+          <p><strong>National Suicide Prevention Lifeline: 988</strong></p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="header-content">
+        <h1 class="chat-title">
+          <span class="brain-icon">🧠</span>
+          Mental Health Support Chat
+        </h1>
+        <div class="header-actions">
+          <button class="action-btn" (click)="startNewConversation()" title="New Chat">
+            <span class="icon">💬</span>
+            New Chat
+          </button>
+          <button class="action-btn secondary" (click)="clearChat()" title="Clear Chat">
+            <span class="icon">🗑️</span>
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Messages Area -->
+    <div class="messages-container" #messagesContainer>
+      <div class="messages-list">
+        <div 
+          *ngFor="let message of messages; trackBy: trackByFn" 
+          class="message-wrapper"
+          [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
+          
+          <!-- User Message -->
+          <div *ngIf="message.sender === 'user'" class="message user-msg">
+            <div class="message-content">
+              <p>{{ message.content }}</p>
+              <span class="message-time">{{ getFormattedTime(message) }}</span>
+            </div>
+            <div class="message-avatar user-avatar">👤</div>
+          </div>
+  
+          <!-- Bot Message -->
+          <div *ngIf="message.sender === 'bot'" class="message bot-msg">
+            <div class="message-avatar bot-avatar">🤖</div>
+            <div class="message-content">
+              <p>{{ message.content }}</p>
+              <span class="message-time">{{ getFormattedTime(message) }}</span>
+              
+              <!-- AI Confidence Indicator -->
+              <div *ngIf="message.confidence_score && message.confidence_score > 0" class="confidence-indicator">
+                <span class="confidence-label">AI Confidence:</span>
+                <div class="confidence-bar">
+                  <div class="confidence-fill" [style.width.%]="(message.confidence_score || 0) * 100"></div>
+                </div>
+                <span class="confidence-text">{{ Math.round((message.confidence_score || 0) * 100) }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" *ngIf="isTyping">
+          <div class="message bot-msg">
+            <div class="message-avatar bot-avatar">🤖</div>
+            <div class="typing-bubble">
+              <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span class="typing-text">AI is analyzing your message...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Crisis Alert Bar -->
+    <div class="crisis-alert-bar" *ngIf="hasCrisisMessages()">
+      <div class="crisis-content">
+        <span class="crisis-icon">🚨</span>
+        <span class="crisis-message">If you're in immediate danger, please call emergency services.</span>
+        <button class="crisis-btn" (click)="callCrisisLine()">
+          📞 Call 988 Crisis Line
+        </button>
+      </div>
+    </div>
+  
+    <!-- Resources Panel -->
+    <div class="resources-panel" *ngIf="resources.length > 0">
+      <div class="resources-header">
+        <span class="resources-icon">💡</span>
+        <h3>Recommended Resources</h3>
+      </div>
+      <div class="resources-list">
+        <div 
+          class="resource-card" 
+          *ngFor="let resource of resources"
+          (click)="openResource(resource)"
+          [style.border-left-color]="getResourceTypeColor(resource.resource_type)">
+          
+          <div class="resource-header">
+            <span class="resource-icon">{{ getResourceTypeIcon(resource.resource_type) }}</span>
+            <span class="resource-title">{{ resource.title }}</span>
+            <span class="resource-type">{{ resource.resource_type }}</span>
+          </div>
+          
+          <p class="resource-description">{{ resource.description }}</p>
+          
+          <div class="resource-footer" *ngIf="resource.url">
+            <span class="resource-link">🔗 Visit Link</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- AI Analysis Debug Panel -->
+    <div class="ai-debug-panel" *ngIf="showAIDebug && lastAnalysis">
+      <div class="debug-header">
+        <h4>🧠 AI Analysis</h4>
+        <button class="close-debug" (click)="showAIDebug = false">×</button>
+      </div>
+      <div class="debug-content">
+        <div class="debug-section">
+          <strong>Sentiment:</strong> {{ lastAnalysis.sentiment?.label }} 
+          ({{ Math.round((lastAnalysis.sentiment?.compound || 0) * 100) }}%)
+        </div>
+        <div class="debug-section">
+          <strong>Category:</strong> {{ lastAnalysis.category }}
+        </div>
+        <div class="debug-section">
+          <strong>Severity:</strong> {{ lastAnalysis.severity }}
+        </div>
+        <div class="debug-section">
+          <strong>Keywords:</strong> 
+          <span *ngFor="let keyword of lastAnalysis.keywords" class="keyword-tag">
+            {{ keyword.keyword }}
+          </span>
+          <span *ngIf="lastAnalysis.keywords?.length === 0" class="no-keywords">None detected</span>
+        </div>
+        <div class="debug-section">
+          <strong>Confidence:</strong> {{ Math.round((lastAnalysis.confidence || 0) * 100) }}%
+        </div>
+        <div class="debug-section">
+          <strong>Crisis Detected:</strong> 
+          <span [ngClass]="{'crisis-yes': lastAnalysis.crisis_detected, 'crisis-no': !lastAnalysis.crisis_detected}">
+            {{ lastAnalysis.crisis_detected ? 'YES' : 'NO' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Input Area -->
+    <div class="input-container">
+      <div class="input-wrapper">
+        <textarea 
+          #messageInput
+          class="message-input"
+          [(ngModel)]="currentMessage"
+          (keydown)="onKeyPress($event)"
+          (input)="onInputChange()"
+          placeholder="Share what's on your mind... Press Enter to send"
+          rows="1"
+          [disabled]="isLoading">
+        </textarea>
+        
+        <button 
+          class="send-button"
+          (click)="sendMessage()"
+          [disabled]="!currentMessage || currentMessage.trim().length === 0 || isLoading"
+          title="Send message">
+          <span class="send-icon" *ngIf="!isLoading">➤</span>
+          <span class="loading-icon" *ngIf="isLoading">⏳</span>
+        </button>
+      </div>
+      
+      <!-- Character counter and suggestions -->
+      <div class="input-footer">
+        <div class="input-info">
+          <span class="char-counter" [ngClass]="{'warning': currentMessage.length > 500}">
+            {{ currentMessage.length }}/500
+          </span>
+          <span class="disclaimer">
+            This chatbot provides support and is not a substitute for professional care.
+          </span>
+        </div>
+        
+        <!-- Quick suggestions -->
+        <div class="quick-suggestions" *ngIf="currentMessage.length === 0">
+          <span class="suggestion-label">Try asking:</span>
+          <button 
+            *ngFor="let suggestion of quickSuggestions" 
+            class="suggestion-btn"
+            (click)="selectSuggestion(suggestion)">
+            {{ suggestion }}
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Toggle Debug Button -->
+    <button class="debug-toggle" (click)="showAIDebug = !showAIDebug" title="Toggle AI Debug">
+      🧠 AI
+    </button>
+  </div>
