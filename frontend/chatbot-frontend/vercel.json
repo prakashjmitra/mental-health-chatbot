@@ -1,4 +1,6 @@
 {
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist/chatbot-frontend/browser",
     "rewrites": [
       {
         "source": "/(.*)",
