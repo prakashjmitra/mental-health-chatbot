@@ -52,8 +52,8 @@ export interface ChatResponse {
 })
 
 export class ChatService {
-  private apiUrl = environment.production 
-    ? 'https://mental-health-chatbot-production-11d3.up.railway.app/api' 
+  private apiUrl = environment.production
+    ? 'https://mental-health-chatbot-production-11d3.up.railway.app/api'
     : 'http://localhost:8001/api';
 
   constructor(private http: HttpClient) { }

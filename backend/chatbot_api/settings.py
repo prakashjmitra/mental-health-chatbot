@@ -135,7 +135,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",  # For local development
-    "https://mental-health-chatbot-3h9uq9roi-prakash-mitras-projects.vercel.app",  # Your Vercel app
+    "https://mental-health-chatbot-qeydw9dhz-prakash-mitras-projects.vercel.app",  # Your Vercel app
 ]
 
 CORS_ALLOW_CREDENTIALS = True 
