@@ -134,14 +134,13 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",
-    "https://your-frontend-domain.vercel.app",  # We'll update this
+    "http://localhost:4200",  # For local development
+    "https://mental-health-chatbot-3h9uq9roi-prakash-mitras-projects.vercel.app",  # Your Vercel app
 ]
 
 CORS_ALLOW_CREDENTIALS = True 
-CORS_ALLOW_ALL_ORIGINS = True  # Remove this in production later
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'your-backend-domain.railway.app',  # We'll update this
+    'mental-health-chatbot-production-11d3.up.railway.app',  # Your Railway app
 ]

@@ -50,9 +50,10 @@ export interface ChatResponse {
 @Injectable({
   providedIn: 'root'
 })
+
 export class ChatService {
   private apiUrl = environment.production 
-    ? 'https://YOUR_BACKEND_URL/api' 
+    ? 'https://mental-health-chatbot-production-11d3.up.railway.app/api' 
     : 'http://localhost:8001/api';
 
   constructor(private http: HttpClient) { }
@@ -132,4 +133,5 @@ export class ChatService {
       })
     );
   }
+  
 }
