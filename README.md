@@ -42,7 +42,7 @@ This project explores how NLP-driven intent classification can be used to provid
 ### Installation
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/mental-health-chatbot.git
+git clone https://github.com/prakashjmitra/mental-health-chatbot.git
 cd mental-health-chatbot
 ```
 2. Set up the backend (Django)
