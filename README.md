@@ -40,10 +40,22 @@ This project explores how NLP-driven intent classification can be used to provid
 - Docker & Docker Compose
 
 ### Installation
-```bash
-git clone https://github.com/yourusername/mental-health-chatbot.git
+1. Clone the repository
+bashgit clone https://github.com/yourusername/mental-health-chatbot.git
 cd mental-health-chatbot
-```
+2. Set up the backend (Django)
+bashcd backend
+pip install -r requirements.txt
+python manage.py runserver
+The backend will start at http://localhost:8000.
+3. Set up the frontend (Angular)
+Open a new terminal window:
+bashcd frontend
+npm install
+ng serve
+The frontend will start at http://localhost:4200.
+4. Open the app
+Navigate to http://localhost:4200 in your browser to start using the chatbot.
 
 
 ## Future Work
