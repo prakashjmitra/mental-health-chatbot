@@ -43,7 +43,6 @@ git clone https://github.com/yourusername/mental-health-chatbot.git
 cd mental-health-chatbot
 ```
 
-[Add setup instructions specific to your project here]
 
 ## Future Work
 
