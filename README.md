@@ -3,6 +3,8 @@
 A conversational AI application that provides personalized coping strategies, mental health resources, and intelligent dialogue through natural language processing. Built with Django, Angular, and spaCy.
 
 ## Overview
+<img width="992" height="910" alt="Screenshot 2026-02-28 at 8 40 52 PM" src="https://github.com/user-attachments/assets/51ea0248-f622-4c67-a55f-ec60bea96654" />
+
 
 This project explores how NLP-driven intent classification can be used to provide accessible, real-time mental health support. The chatbot analyzes user inputs to identify emotional states and conversational intent, then dynamically routes users to appropriate resources and coping strategies.
 
@@ -21,7 +23,7 @@ This project explores how NLP-driven intent classification can be used to provid
 | Backend | Django REST Framework |
 | NLP Engine | spaCy + custom intent handler |
 | API Design | RESTful with CORS configuration |
-| Deployment | Docker |
+| Deployment | Vercel |
 
 ## Key Features
 
